@@ -43,7 +43,7 @@ const handleAll = async (categoryId) => {
     cardContainer.appendChild(div);
   } else {
     data.data.forEach((news) => {
-      // console.log(news);
+      console.log(news);
       const div = document.createElement("div");
       div.classList.add("card");
       div.innerHTML = `
@@ -62,11 +62,11 @@ const handleAll = async (categoryId) => {
                       <div class="card-actions mt-8">
                           <div class="avater-online flex gap-4">
                               <div class="w-14 rounded-full">
-                                  <img src=${news?.authors?.profile_picture} alt="">
+                                  <img class="rounded-full" src=${news?.authors[0]?.profile_picture} alt="imge">
                               </div>
-                              <p>${news?.authors?.profile_name}</p>
+                              <p class="text-xl font-bold">${news?.authors[0]?.profile_name}</p>
                           </div>
-                      </div>m
+                      </div>
                   </div>
               </div>
           `;
