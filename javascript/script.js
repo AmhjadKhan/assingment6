@@ -19,9 +19,26 @@ const handClaps = async () => {
   });
 };
 
+const convertPostelDate = (postelDate) => {
+  // Assuming postelDate is in the format '16950' (example)
+  
+  // Convert the postelDate to a number
+  const postelNumber = parseInt(postelDate, 10);
+  
+  // Calculate hours and minutes
+  const hours = Math.floor(postelNumber / 60);
+  const minutes = postelNumber % 60;
+
+  // Create a string with the converted hours and minutes
+  const convertedTime = `${hours} hours ${minutes} min`;
+
+  return convertedTime;
+};
+
+
 const handleAll = async (categoryId) => {
   //   console.log(categoryId);
-
+    
   const response = await fetch(
     `https://openapi.programming-hero.com/api/videos/category/${categoryId}`
   );
@@ -43,7 +60,9 @@ const handleAll = async (categoryId) => {
     cardContainer.appendChild(div);
   } else {
     data.data.forEach((news) => {
-      console.log(news);
+      // console.log(news);
+
+      const convertedPostedDate = convertPostelDate(news?.others?.posted_date);
       const div = document.createElement("div");
       div.classList.add("card");
       div.innerHTML = `
@@ -52,21 +71,22 @@ const handleAll = async (categoryId) => {
            <figure>
             <img class="h-48 w-80" src="${news?.thumbnail}" alt="picture">
            </figure>
-             <span class="bg-black ml-24 mt-16 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full p-2">
-             <p>${news?.others?.posted_date}</p>
+             <span class="bg-black ml-24 mt-16 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  p-2">
+             <p class="">${convertedPostedDate}</p>
           </span>
            </div>
                   <h1 class="text-2xl font-bold">${news?.title}</h1>
-                  <p class="ml-60">${news?.others?.views}
                   <div class="card-body">  
                       <div class="card-actions mt-8">
                           <div class="avater-online flex gap-4">
                               <div class="w-14 rounded-full">
-                                  <img class="rounded-full" src=${news?.authors[0]?.profile_picture} alt="imge">
+                                  <img class="rounded-full" src=${news?.authors[0]?.profile_picture[1]} alt="imge">
                               </div>
                               <p class="text-xl font-bold">${news?.authors[0]?.profile_name}</p>
+                              <br>
                           </div>
                       </div>
+                      <p>${news?.others?.views}
                   </div>
               </div>
           `;
